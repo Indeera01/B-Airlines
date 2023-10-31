@@ -89,6 +89,8 @@ export default function FlightStatus() {
                 delayDetails: delayDetails,
             }).then((response) => {
                 console.log("response", response);
+                console.log("Response received", response);
+                window.location.reload();
 
             })
         } catch {
@@ -211,15 +213,6 @@ export default function FlightStatus() {
                     backgroundPositionY: 'center',
                 }}>
 
-                {/* <div>hello</div> */}
-                {/* <div>
-                    <TextField
-                        id="outlined-basic"
-                        label="Outlined"
-                        variant="outlined"
-                    />
-
-                </div> */}
                 <div>
                     {showForm ? (
                         <div>
@@ -234,7 +227,7 @@ export default function FlightStatus() {
                                 />
                                 <TextField
                                     name="delayTime"
-                                    label="Delay Time"
+                                    label="Delay Time (hh:mm:ss)"
                                     fullWidth
                                     value={delayDetails.delayTime}
                                     onChange={handleChange}
@@ -251,9 +244,7 @@ export default function FlightStatus() {
                                 type="submit"
                                 onClick={() => {
                                     saveDelay();
-                                    navigate('/flightStatus',
 
-                                    )
                                 }}
 
                             >Submit</button>
