@@ -50,7 +50,7 @@ router.get('/airports', async (req, res) => {
 }
 );
 router.post('/bookTicket', async (req, res) => {
-    console.log("request", req.body);
+    console.log("request isGuest", req.body.isGuest);
     let passenger_id = null
     let geust_id = null
     if (req.body.isGuest) {
@@ -84,7 +84,7 @@ router.post('/createPayment', async (req, res) => {
     const payment = await createPayment(req.body.bookingId, req.body.passengerID);
     console.log("payment", payment);
     console.log("body", req.body)
-    main(req.body.passengerDetails[0], req.body.flight[0], req.body.seat[0])
+  await  main(req.body.passengerDetails[0], req.body.flight[0], req.body.seat[0])
 
     res.send(payment);
 

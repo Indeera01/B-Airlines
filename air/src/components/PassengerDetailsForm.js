@@ -18,7 +18,7 @@ export default function PassengerDetailsForm() {
   const { dataOfBirth, setDateOfBirth } = useState({});
   const [error, setError] = useState({ FirstName: false, LastName: false, Nationality: false, ContactNumber1: false, EmailAddress: false, PassportNumber: false });
 
-
+const [isAutoFill,setIsAutoFill]=useState(false)
   const [flight, setFlight] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
@@ -70,6 +70,14 @@ export default function PassengerDetailsForm() {
 
 
   }
+ //handle date inputs separately
+ function handleDateChange(date) {
+  // Update the dateofBirth property in the registrationDetails state
+  const isoDate = date.format();
+  setPassengerDetails({ ...passengerDetails, DateOfBirth: isoDate });
+  console.log("Selected Date:", date.toISOString());
+}
+
   function handleChange(event) {
 
     // console.log("event",event);
@@ -145,7 +153,8 @@ export default function PassengerDetailsForm() {
             <div style={{ alignSelf: 'center', marginLeft: 30, justifyContent: 'center' }}>
 
 
-              <h1 >Fill Passenger details {localStorage.getItem("userName") != '' ? <Button variant="contained" color="success" onClick={() => {
+              <h1 >Fill Passenger details {!isGuest()? <Button variant="contained" color="success" onClick={() => {
+                setIsAutoFill(true)
                 setPassengers([...passengers, {}])
                 // console.log(passengers);
                 let userDetails = JSON.parse(localStorage.getItem("userDetails"));
@@ -209,12 +218,7 @@ export default function PassengerDetailsForm() {
                   value={dayjs(passengerDetails.DateOfBirth)}
                   error={error.DateOfBirth}
 
-                  onChange={(e) => {
-                    console.log(e)
-                    // handleChange(e)
-                    // setDateOfBirth(e)
-                  }}
-                  label="DateOfBirth" />
+                  onChange= {(date) => handleDateChange(date)}                  label="DateOfBirth" />
               </div>
               <div style={{ marginTop: 10 }}>
 
@@ -260,7 +264,8 @@ export default function PassengerDetailsForm() {
                 navigate('/seatBooking', {
                   state: {
                     passengerDetails: passengerDetails,
-                    flight: flight
+                    flight: flight,
+                    isAutoFill:isAutoFill
                   }
                 })
 
